@@ -1,5 +1,5 @@
 class InvoicesController < ApplicationController
-  before_action :set_invoice, only: [:show, :edit, :update, :destroy, :duplicate, :pdf]
+  before_action :set_invoice, only: [:show, :edit, :update, :destroy, :duplicate]
   before_action :set_setting, only: [:new, :create, :edit, :update]
 
   def index
@@ -12,10 +12,11 @@ class InvoicesController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        render pdf: "invoice-#{@invoice.invoice_number}",
-               template: "invoices/show.pdf.erb",
-               layout: "pdf",
-               page_size: "A4"
+        pdf = InvoicePdfService.new(@invoice).generate
+        send_data pdf.render, 
+                  filename: "invoice-#{@invoice.invoice_number}.pdf",
+                  type: "application/pdf",
+                  disposition: "inline"
       end
     end
   end
@@ -69,16 +70,6 @@ class InvoicesController < ApplicationController
     end
   end
 
-  def pdf
-    respond_to do |format|
-      format.pdf do
-        render pdf: "invoice-#{@invoice.invoice_number}",
-               template: "invoices/show.pdf.erb",
-               layout: "pdf",
-               page_size: "A4"
-      end
-    end
-  end
 
   private
 

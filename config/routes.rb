@@ -12,7 +12,6 @@ Rails.application.routes.draw do
   resources :invoices do
     member do
       post :duplicate
-      get :pdf, format: :pdf
     end
   end
 
