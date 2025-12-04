@@ -45,7 +45,7 @@ gem "prawn", "~> 2.4"
 gem "prawn-table", "~> 0.2.2"
 
 # Tailwind CSS
-gem "tailwindcss-rails", "~> 2.0"
+gem "tailwindcss-rails", "~> 4.4"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
