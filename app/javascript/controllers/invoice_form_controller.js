@@ -96,19 +96,19 @@ export default class extends Controller {
       <div class="grid grid-cols-12 gap-4">
         <div class="col-span-5">
           <input type="hidden" name="invoice[invoice_items_attributes][${timestamp}][product_id]" value="${productId || ""}" class="product-id-field">
-          <input type="text" name="invoice[invoice_items_attributes][${timestamp}][description]" value="${description}" placeholder="Description" required class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+          <input type="text" name="invoice[invoice_items_attributes][${timestamp}][description]" value="${description}" placeholder="Description" required class="block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm">
         </div>
         <div class="col-span-2">
-          <input type="number" name="invoice[invoice_items_attributes][${timestamp}][quantity]" value="1" step="0.01" min="0.01" required class="item-quantity block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+          <input type="number" name="invoice[invoice_items_attributes][${timestamp}][quantity]" value="1" step="0.01" min="0.01" required class="item-quantity block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm">
         </div>
         <div class="col-span-3">
-          <input type="number" name="invoice[invoice_items_attributes][${timestamp}][unit_price]" value="0" step="0.01" min="0" required placeholder="Price" class="item-price block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+          <input type="number" name="invoice[invoice_items_attributes][${timestamp}][unit_price]" value="0" step="0.01" min="0" required placeholder="Price" class="item-price block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm">
         </div>
                     <div class="col-span-1">
                       <span class="item-total block w-full text-sm font-medium text-gray-900 text-right">${this.currencySymbol} 0.00</span>
                     </div>
         <div class="col-span-1">
-          <button type="button" class="remove-item text-red-600 hover:text-red-800 text-sm">Remove</button>
+          <button type="button" class="remove-item text-gray-600 hover:text-gray-900 text-sm font-medium">Remove</button>
         </div>
       </div>
     `
