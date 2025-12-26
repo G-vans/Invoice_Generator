@@ -7,4 +7,3 @@ class HomeController < ApplicationController
     @has_setup = @setting.company_name.present?
   end
 end
-
