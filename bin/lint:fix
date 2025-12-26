@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Auto-fix all linting issues
+
+set -e
+
+echo "🔧 Auto-fixing linting issues..."
+echo ""
+
+# Fix JavaScript issues
+echo "📦 Fixing JavaScript..."
+npm run lint:js:fix
+echo ""
+
+# Fix Ruby issues
+echo "💎 Fixing Ruby..."
+bundle exec rubocop -a
+echo ""
+
+echo "✅ All fixes applied!"
+

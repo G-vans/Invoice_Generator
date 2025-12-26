@@ -1,0 +1,3 @@
+# This file is used to track RuboCop offenses that are being gradually fixed.
+# Run `bundle exec rubocop --auto-gen-config` to generate this file.
+

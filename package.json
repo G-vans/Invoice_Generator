@@ -1,0 +1,34 @@
+{
+  "name": "invoice_generator",
+  "version": "1.0.0",
+  "description": "A modern, full-stack Ruby on Rails application for creating, managing, and exporting professional invoices. Built to streamline the invoice creation process and eliminate the risk of overwriting previous invoices when using template-based systems.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "lint:js": "eslint app/javascript",
+    "lint:js:fix": "eslint app/javascript --fix",
+    "lint:ruby": "bundle exec rubocop",
+    "lint:ruby:fix": "bundle exec rubocop -a",
+    "lint": "npm run lint:js && npm run lint:ruby",
+    "lint:fix": "npm run lint:js:fix && npm run lint:ruby:fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/G-vans/Invoice_Generator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/G-vans/Invoice_Generator/issues"
+  },
+  "homepage": "https://github.com/G-vans/Invoice_Generator#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "eslint": "^9.39.2"
+  }
+}

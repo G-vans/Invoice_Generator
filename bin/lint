@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Run all linters for the project
+
+set -e
+
+echo "🔍 Running linters..."
+echo ""
+
+# Run JavaScript linter
+echo "📦 Linting JavaScript..."
+npm run lint:js
+echo ""
+
+# Run Ruby linter
+echo "💎 Linting Ruby..."
+bundle exec rubocop
+echo ""
+
+echo "✅ All linters passed!"
+

@@ -88,7 +88,6 @@ export default class extends Controller {
 
   addItemRow(productId, description) {
     const container = document.getElementById("invoice-items")
-    const index = container.querySelectorAll(".invoice-item-row").length
     const timestamp = Date.now()
     
     const row = document.createElement("div")
