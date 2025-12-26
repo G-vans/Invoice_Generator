@@ -13,19 +13,11 @@ export default class extends Controller {
       clearTimeout(this.timeout)
     }
 
-    // Wait 300ms after user stops typing before searching
+    // Wait 600ms after user stops typing before searching
     this.timeout = setTimeout(() => {
+      // Use Turbo to submit the form, which will update the frame
       this.formTarget.requestSubmit()
     }, 600)
-  }
-
-  clear() {
-    // Clear the input and search immediately
-    if (this.timeout) {
-      clearTimeout(this.timeout)
-    }
-    this.inputTarget.value = ""
-    this.formTarget.requestSubmit()
   }
 }
 
