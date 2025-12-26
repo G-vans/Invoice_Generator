@@ -24,10 +24,10 @@
 
     <!-- Invoices Table -->
     <% if @invoices.any? %>
-      <div class="bg-white border border-gray-200 overflow-hidden rounded-lg">
+      <div class="bg-white border border-gray-200 rounded-lg">
         <ul class="divide-y divide-gray-200">
           <% @invoices.each do |invoice| %>
-            <li>
+            <li class="relative">
               <div class="px-4 py-4 sm:px-6 hover:bg-gray-50 transition-colors">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center">
@@ -43,12 +43,62 @@
                       <p class="text-sm font-semibold text-gray-900"><%= number_to_currency(invoice.total, unit: invoice.tax_rate > 0 ? Setting.instance.currency : "$") %></p>
                       <p class="text-sm text-gray-500"><%= invoice.invoice_date.strftime("%b %d, %Y") %></p>
                     </div>
-                    <div class="flex space-x-3">
-                      <%= link_to "View", invoice, class: "text-sm font-medium text-gray-900 hover:text-gray-700" %>
-                      <%= link_to "Edit", edit_invoice_path(invoice), class: "text-sm font-medium text-gray-600 hover:text-gray-900" %>
-                      <%= link_to "PDF", invoice_path(invoice, format: :pdf), class: "text-sm font-medium text-gray-600 hover:text-gray-900", target: "_blank" %>
-                      <%= link_to "Duplicate", duplicate_invoice_path(invoice), data: { turbo_method: :post }, class: "text-sm font-medium text-gray-600 hover:text-gray-900" %>
-                      <%= link_to "Delete", invoice_path(invoice), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "text-sm font-medium text-gray-600 hover:text-gray-900" %>
+                    <div class="relative" data-controller="dropdown">
+                      <button type="button" 
+                              data-dropdown-target="button"
+                              data-action="click->dropdown#toggle"
+                              class="inline-flex items-center p-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path>
+                        </svg>
+                      </button>
+                      <div data-dropdown-target="menu" 
+                           class="hidden absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                        <div class="py-1">
+                          <%= link_to invoice, class: "block px-4 py-2 text-sm text-gray-900 hover:bg-gray-50" do %>
+                            <div class="flex items-center">
+                              <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                              </svg>
+                              View
+                            </div>
+                          <% end %>
+                          <%= link_to edit_invoice_path(invoice), class: "block px-4 py-2 text-sm text-gray-900 hover:bg-gray-50" do %>
+                            <div class="flex items-center">
+                              <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                              </svg>
+                              Edit
+                            </div>
+                          <% end %>
+                          <%= link_to invoice_path(invoice, format: :pdf), target: "_blank", class: "block px-4 py-2 text-sm text-gray-900 hover:bg-gray-50" do %>
+                            <div class="flex items-center">
+                              <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                              </svg>
+                              Download PDF
+                            </div>
+                          <% end %>
+                          <%= link_to duplicate_invoice_path(invoice), data: { turbo_method: :post }, class: "block px-4 py-2 text-sm text-gray-900 hover:bg-gray-50" do %>
+                            <div class="flex items-center">
+                              <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                              </svg>
+                              Duplicate
+                            </div>
+                          <% end %>
+                          <div class="border-t border-gray-200 my-1"></div>
+                          <%= link_to invoice_path(invoice), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "block px-4 py-2 text-sm text-gray-900 hover:bg-gray-50" do %>
+                            <div class="flex items-center">
+                              <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                              </svg>
+                              Delete
+                            </div>
+                          <% end %>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
