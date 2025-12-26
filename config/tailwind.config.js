@@ -10,7 +10,24 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+        sans: [
+          '"Space Grotesk"',
+          'system-ui',
+          'Helvetica Neue',
+          'Helvetica',
+          'Arial',
+          'sans-serif'
+        ],
+        mono: [
+          'ui-monospace',
+          'SFMono-Regular',
+          'Menlo',
+          'Monaco',
+          'Consolas',
+          'Liberation Mono',
+          'Courier New',
+          'monospace'
+        ],
       },
     },
   },

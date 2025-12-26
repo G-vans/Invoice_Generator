@@ -9,13 +9,13 @@
     <% setting = Setting.instance %>
     <%= form_with model: @invoice, local: true, data: { controller: "invoice-form", action: "turbo:load->invoice-form#connect", "invoice-form-currency-value": setting.currency || "$" } do |form| %>
       <% if @invoice.errors.any? %>
-        <div class="mb-6 bg-red-50 border-l-4 border-red-400 p-4">
+        <div class="mb-6 bg-gray-50 border-l-4 border-gray-400 p-4">
           <div class="flex">
             <div class="ml-3">
-              <h3 class="text-sm font-medium text-red-800">
+              <h3 class="text-sm font-medium text-gray-800">
                 <%= pluralize(@invoice.errors.count, "error") %> prohibited this invoice from being saved:
               </h3>
-              <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+              <ul class="mt-2 text-sm text-gray-700 list-disc list-inside">
                 <% @invoice.errors.full_messages.each do |message| %>
                   <li><%= message %></li>
                 <% end %>
@@ -29,43 +29,43 @@
         <!-- Left Column: Client & Invoice Info -->
         <div class="lg:col-span-1 space-y-6">
           <!-- Client Information -->
-          <div class="bg-white shadow rounded-lg p-6">
+          <div class="bg-white border border-gray-200 rounded-lg p-6">
             <h2 class="text-lg font-medium text-gray-900 mb-4">Client Information</h2>
             <div class="space-y-4">
               <div>
                 <%= form.label :client_name, "Client Name", class: "block text-sm font-medium text-gray-700 mb-1" %>
-                <%= form.text_field :client_name, required: true, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
+                <%= form.text_field :client_name, required: true, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm" %>
               </div>
               <div>
                 <%= form.label :client_address, "Address", class: "block text-sm font-medium text-gray-700 mb-1" %>
-                <%= form.text_area :client_address, rows: 3, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
+                <%= form.text_area :client_address, rows: 3, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm" %>
               </div>
               <div>
                 <%= form.label :client_email, "Email", class: "block text-sm font-medium text-gray-700 mb-1" %>
-                <%= form.email_field :client_email, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
+                <%= form.email_field :client_email, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm" %>
               </div>
             </div>
           </div>
 
           <!-- Invoice Details -->
-          <div class="bg-white shadow rounded-lg p-6">
+          <div class="bg-white border border-gray-200 rounded-lg p-6">
             <h2 class="text-lg font-medium text-gray-900 mb-4">Invoice Details</h2>
             <div class="space-y-4">
               <div>
                 <%= form.label :invoice_date, "Invoice Date", class: "block text-sm font-medium text-gray-700 mb-1" %>
-                <%= form.date_field :invoice_date, required: true, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
+                <%= form.date_field :invoice_date, required: true, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm" %>
               </div>
               <div>
                 <%= form.label :due_date, "Due Date", class: "block text-sm font-medium text-gray-700 mb-1" %>
-                <%= form.date_field :due_date, required: true, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
+                <%= form.date_field :due_date, required: true, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm" %>
               </div>
               <div>
                 <%= form.label :tax_rate, "Tax Rate (%)", class: "block text-sm font-medium text-gray-700 mb-1" %>
-                <%= form.number_field :tax_rate, step: 0.01, min: 0, value: @invoice.tax_rate || @setting.tax_rate, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
+                <%= form.number_field :tax_rate, step: 0.01, min: 0, value: @invoice.tax_rate || @setting.tax_rate, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm" %>
               </div>
               <div>
                 <%= form.label :notes, "Notes / Terms", class: "block text-sm font-medium text-gray-700 mb-1" %>
-                <%= form.text_area :notes, rows: 4, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
+                <%= form.text_area :notes, rows: 4, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm" %>
               </div>
             </div>
           </div>
@@ -74,15 +74,15 @@
         <!-- Right Column: Line Items -->
         <div class="lg:col-span-2 space-y-6">
           <!-- Product Catalog Selector -->
-          <div class="bg-white shadow rounded-lg p-6">
+          <div class="bg-white border border-gray-200 rounded-lg p-6">
             <h2 class="text-lg font-medium text-gray-900 mb-4">Add Items from Catalog</h2>
             <div class="mb-4">
-              <input type="text" id="product-search" data-invoice-form-target="productSearch" placeholder="Search products..." class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+              <input type="text" id="product-search" data-invoice-form-target="productSearch" placeholder="Search products..." class="block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm">
             </div>
             <div id="product-list" data-invoice-form-target="productList" class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-48 overflow-y-auto">
               <% @products.each do |product| %>
                 <button type="button" 
-                        class="product-item text-left px-4 py-2 border border-gray-300 rounded-md hover:bg-blue-50 hover:border-blue-500 transition-colors"
+                        class="product-item text-left px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 hover:border-gray-400 transition-colors"
                         data-product-id="<%= product.id %>"
                         data-product-name="<%= product.name %>"
                         data-product-description="<%= product.description %>">
@@ -96,10 +96,10 @@
           </div>
 
           <!-- Line Items Table -->
-          <div class="bg-white shadow rounded-lg p-6">
+          <div class="bg-white border border-gray-200 rounded-lg p-6">
             <div class="flex justify-between items-center mb-4">
               <h2 class="text-lg font-medium text-gray-900">Line Items</h2>
-              <button type="button" id="add-custom-item" class="text-sm text-blue-600 hover:text-blue-800">+ Add Custom Item</button>
+              <button type="button" id="add-custom-item" class="text-sm font-medium text-gray-900 hover:text-gray-700">+ Add Custom Item</button>
             </div>
             
             <div id="invoice-items" data-invoice-form-target="itemsContainer">
@@ -109,19 +109,19 @@
                     <div class="grid grid-cols-12 gap-4">
                       <div class="col-span-5">
                         <%= item_form.hidden_field :product_id, class: "product-id-field" %>
-                        <%= item_form.text_field :description, placeholder: "Description", required: true, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
+                        <%= item_form.text_field :description, placeholder: "Description", required: true, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm" %>
                       </div>
                       <div class="col-span-2">
-                        <%= item_form.number_field :quantity, placeholder: "Qty", step: 0.01, min: 0.01, required: true, value: item_form.object.quantity || 1, class: "item-quantity block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
+                        <%= item_form.number_field :quantity, placeholder: "Qty", step: 0.01, min: 0.01, required: true, value: item_form.object.quantity || 1, class: "item-quantity block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm" %>
                       </div>
                       <div class="col-span-3">
-                        <%= item_form.number_field :unit_price, placeholder: "Price", step: 0.01, min: 0, required: true, value: item_form.object.unit_price || 0, class: "item-price block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
+                        <%= item_form.number_field :unit_price, placeholder: "Price", step: 0.01, min: 0, required: true, value: item_form.object.unit_price || 0, class: "item-price block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm" %>
                       </div>
                       <div class="col-span-1">
                         <span class="item-total block w-full text-sm font-medium text-gray-900 text-right"><%= (setting.currency || "$") %> 0.00</span>
                       </div>
                       <div class="col-span-1">
-                        <button type="button" class="remove-item text-red-600 hover:text-red-800 text-sm">Remove</button>
+                        <button type="button" class="remove-item text-gray-600 hover:text-gray-900 text-sm font-medium">Remove</button>
                       </div>
                     </div>
                   </div>
@@ -154,8 +154,8 @@
 
       <!-- Form Actions -->
       <div class="mt-6 flex justify-end space-x-3">
-        <%= link_to "Cancel", invoices_path, class: "px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" %>
-        <%= form.submit "Create Invoice", class: "px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700" %>
+        <%= link_to "Cancel", invoices_path, class: "px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors" %>
+        <%= form.submit "Create Invoice", class: "px-4 py-2 border border-transparent rounded-lg text-sm font-semibold text-white bg-gray-900 hover:bg-gray-800 transition-colors" %>
       </div>
     <% end %>
   </div>
