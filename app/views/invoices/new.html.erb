@@ -103,26 +103,28 @@
             
             <div id="invoice-items" data-invoice-form-target="itemsContainer">
               <%= form.fields_for :invoice_items do |item_form| %>
-                <div class="invoice-item-row border-b border-gray-200 pb-4 mb-4">
-                  <div class="grid grid-cols-12 gap-4">
-                    <div class="col-span-5">
-                      <%= item_form.hidden_field :product_id, class: "product-id-field" %>
-                      <%= item_form.text_field :description, placeholder: "Description", required: true, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
-                    </div>
-                    <div class="col-span-2">
-                      <%= item_form.number_field :quantity, placeholder: "Qty", step: 0.01, min: 0.01, required: true, value: item_form.object.quantity || 1, class: "item-quantity block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
-                    </div>
-                    <div class="col-span-3">
-                      <%= item_form.number_field :unit_price, placeholder: "Price", step: 0.01, min: 0, required: true, class: "item-price block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
-                    </div>
-                    <div class="col-span-1">
-                      <span class="item-total block w-full text-sm font-medium text-gray-900 text-right">$0.00</span>
-                    </div>
-                    <div class="col-span-1">
-                      <button type="button" class="remove-item text-red-600 hover:text-red-800 text-sm">Remove</button>
+                <% if item_form.object %>
+                  <div class="invoice-item-row border-b border-gray-200 pb-4 mb-4">
+                    <div class="grid grid-cols-12 gap-4">
+                      <div class="col-span-5">
+                        <%= item_form.hidden_field :product_id, class: "product-id-field" %>
+                        <%= item_form.text_field :description, placeholder: "Description", required: true, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
+                      </div>
+                      <div class="col-span-2">
+                        <%= item_form.number_field :quantity, placeholder: "Qty", step: 0.01, min: 0.01, required: true, value: item_form.object.quantity || 1, class: "item-quantity block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
+                      </div>
+                      <div class="col-span-3">
+                        <%= item_form.number_field :unit_price, placeholder: "Price", step: 0.01, min: 0, required: true, value: item_form.object.unit_price || 0, class: "item-price block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
+                      </div>
+                      <div class="col-span-1">
+                        <span class="item-total block w-full text-sm font-medium text-gray-900 text-right">$0.00</span>
+                      </div>
+                      <div class="col-span-1">
+                        <button type="button" class="remove-item text-red-600 hover:text-red-800 text-sm">Remove</button>
+                      </div>
                     </div>
                   </div>
-                </div>
+                <% end %>
               <% end %>
             </div>
 

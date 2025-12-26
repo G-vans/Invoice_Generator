@@ -26,7 +26,7 @@ class InvoicesController < ApplicationController
     @invoice.invoice_date = Date.current
     @invoice.due_date = calculate_due_date
     @invoice.tax_rate = @setting.tax_rate
-    @invoice.invoice_items.build
+    # Don't build empty item - let JavaScript handle adding items
     @products = Product.active.order(:name)
   end
 
