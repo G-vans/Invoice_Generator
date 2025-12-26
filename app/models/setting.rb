@@ -2,7 +2,7 @@ class Setting < ApplicationRecord
   # Singleton pattern - only one settings record
   has_one_attached :logo
 
-  validates :company_name, presence: true, if: -> { persisted? }
+  # Company name is optional - user can update other settings without it
 
   # Class method to get or create the singleton instance
   def self.instance
@@ -14,5 +14,3 @@ class Setting < ApplicationRecord
     end
   end
 end
-
-

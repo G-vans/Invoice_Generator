@@ -6,7 +6,8 @@
       <p class="mt-2 text-sm text-gray-600">Fill in the details below to create a new invoice</p>
     </div>
 
-    <%= form_with model: @invoice, local: true, data: { controller: "invoice-form", action: "turbo:load->invoice-form#connect" } do |form| %>
+    <% setting = Setting.instance %>
+    <%= form_with model: @invoice, local: true, data: { controller: "invoice-form", action: "turbo:load->invoice-form#connect", "invoice-form-currency-value": setting.currency || "$" } do |form| %>
       <% if @invoice.errors.any? %>
         <div class="mb-6 bg-red-50 border-l-4 border-red-400 p-4">
           <div class="flex">
@@ -117,7 +118,7 @@
                         <%= item_form.number_field :unit_price, placeholder: "Price", step: 0.01, min: 0, required: true, value: item_form.object.unit_price || 0, class: "item-price block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" %>
                       </div>
                       <div class="col-span-1">
-                        <span class="item-total block w-full text-sm font-medium text-gray-900 text-right">$0.00</span>
+                        <span class="item-total block w-full text-sm font-medium text-gray-900 text-right"><%= (setting.currency || "$") %> 0.00</span>
                       </div>
                       <div class="col-span-1">
                         <button type="button" class="remove-item text-red-600 hover:text-red-800 text-sm">Remove</button>
@@ -134,15 +135,15 @@
                 <div class="w-64 space-y-2">
                   <div class="flex justify-between">
                     <span class="text-sm text-gray-600">Subtotal:</span>
-                    <span id="subtotal" class="text-sm font-medium text-gray-900">$0.00</span>
+                    <span id="subtotal" class="text-sm font-medium text-gray-900"><%= (setting.currency || "$") %> 0.00</span>
                   </div>
                   <div class="flex justify-between">
                     <span class="text-sm text-gray-600">Tax:</span>
-                    <span id="tax-amount" class="text-sm font-medium text-gray-900">$0.00</span>
+                    <span id="tax-amount" class="text-sm font-medium text-gray-900"><%= (setting.currency || "$") %> 0.00</span>
                   </div>
                   <div class="flex justify-between pt-2 border-t border-gray-200">
                     <span class="text-base font-bold text-gray-900">Total:</span>
-                    <span id="grand-total" class="text-base font-bold text-gray-900">$0.00</span>
+                    <span id="grand-total" class="text-base font-bold text-gray-900"><%= (setting.currency || "$") %> 0.00</span>
                   </div>
                 </div>
               </div>

@@ -2,8 +2,10 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["itemsContainer", "productSearch", "productList", "subtotal", "taxAmount", "grandTotal"]
+  static values = { currency: String }
 
   connect() {
+    this.currencySymbol = this.currencyValue || "$"
     this.setupEventListeners()
     this.initializeExistingItems()
     this.updateTotals()
@@ -103,9 +105,9 @@ export default class extends Controller {
         <div class="col-span-3">
           <input type="number" name="invoice[invoice_items_attributes][${timestamp}][unit_price]" value="0" step="0.01" min="0" required placeholder="Price" class="item-price block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
         </div>
-        <div class="col-span-1">
-          <span class="item-total block w-full text-sm font-medium text-gray-900 text-right">$0.00</span>
-        </div>
+                    <div class="col-span-1">
+                      <span class="item-total block w-full text-sm font-medium text-gray-900 text-right">${this.currencySymbol} 0.00</span>
+                    </div>
         <div class="col-span-1">
           <button type="button" class="remove-item text-red-600 hover:text-red-800 text-sm">Remove</button>
         </div>
@@ -133,7 +135,7 @@ export default class extends Controller {
     const quantity = parseFloat(row.querySelector(".item-quantity")?.value || 0)
     const price = parseFloat(row.querySelector(".item-price")?.value || 0)
     const total = (quantity * price).toFixed(2)
-    row.querySelector(".item-total").textContent = `$${total}`
+    row.querySelector(".item-total").textContent = `${this.currencySymbol} ${total}`
   }
 
   updateTotals() {
@@ -154,9 +156,9 @@ export default class extends Controller {
     const taxAmountEl = document.getElementById("tax-amount")
     const grandTotalEl = document.getElementById("grand-total")
 
-    if (subtotalEl) subtotalEl.textContent = `$${subtotal.toFixed(2)}`
-    if (taxAmountEl) taxAmountEl.textContent = `$${taxAmount.toFixed(2)}`
-    if (grandTotalEl) grandTotalEl.textContent = `$${grandTotal.toFixed(2)}`
+    if (subtotalEl) subtotalEl.textContent = `${this.currencySymbol} ${subtotal.toFixed(2)}`
+    if (taxAmountEl) taxAmountEl.textContent = `${this.currencySymbol} ${taxAmount.toFixed(2)}`
+    if (grandTotalEl) grandTotalEl.textContent = `${this.currencySymbol} ${grandTotal.toFixed(2)}`
   }
 }
 
