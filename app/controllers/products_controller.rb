@@ -1,11 +1,11 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_product, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @products = Product.active.order(:name)
     @products = @products.by_category(params[:category]) if params[:category].present?
     @products = Product.search(params[:search]) if params[:search].present?
-    @categories = Product.where.not(category: [nil, ""]).distinct.pluck(:category).sort
+    @categories = Product.where.not(category: [ nil, "" ]).distinct.pluck(:category).sort
   end
 
   def show
@@ -52,5 +52,3 @@ class ProductsController < ApplicationController
     params.require(:product).permit(:name, :description, :category, :active)
   end
 end
-
-

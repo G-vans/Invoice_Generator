@@ -1,6 +1,6 @@
 class InvoicesController < ApplicationController
-  before_action :set_invoice, only: [:show, :edit, :update, :destroy, :duplicate]
-  before_action :set_setting, only: [:new, :create, :edit, :update]
+  before_action :set_invoice, only: [ :show, :edit, :update, :destroy, :duplicate ]
+  before_action :set_setting, only: [ :new, :create, :edit, :update ]
 
   def index
     @invoices = Invoice.recent
@@ -13,7 +13,7 @@ class InvoicesController < ApplicationController
       format.html
       format.pdf do
         pdf = InvoicePdfService.new(@invoice).generate
-        send_data pdf.render, 
+        send_data pdf.render,
                   filename: "invoice-#{@invoice.invoice_number}.pdf",
                   type: "application/pdf",
                   disposition: "inline"
@@ -90,7 +90,7 @@ class InvoicesController < ApplicationController
       :client_email,
       :tax_rate,
       :notes,
-      invoice_items_attributes: [:id, :product_id, :description, :quantity, :unit_price, :_destroy, :position]
+      invoice_items_attributes: [ :id, :product_id, :description, :quantity, :unit_price, :_destroy, :position ]
     )
   end
 
@@ -100,4 +100,3 @@ class InvoicesController < ApplicationController
     Date.current + days.days
   end
 end
-

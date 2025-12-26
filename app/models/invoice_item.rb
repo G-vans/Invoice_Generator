@@ -7,7 +7,7 @@ class InvoiceItem < ApplicationRecord
   validates :unit_price, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :line_total, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
-  before_validation :calculate_line_total, on: [:create, :update]
+  before_validation :calculate_line_total, on: [ :create, :update ]
   before_save :set_position_if_needed
 
   def calculate_line_total
@@ -20,5 +20,3 @@ class InvoiceItem < ApplicationRecord
     self.position ||= invoice.invoice_items.maximum(:position).to_i + 1
   end
 end
-
-

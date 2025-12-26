@@ -10,4 +10,3 @@ class Product < ApplicationRecord
     where("LOWER(name) LIKE ? OR LOWER(description) LIKE ?", "%#{query.downcase}%", "%#{query.downcase}%")
   end
 end
-
