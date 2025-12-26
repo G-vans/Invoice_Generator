@@ -1,16 +1,21 @@
-<nav class="bg-white shadow-sm border-b border-gray-200">
+<nav class="bg-white border-b border-gray-200">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between h-16">
       <div class="flex">
         <div class="flex-shrink-0 flex items-center">
-          <%= link_to root_path, class: "text-xl font-bold text-blue-600" do %>
-            Invoice Generator
+          <%= link_to root_path, class: "flex items-center space-x-2" do %>
+            <div class="h-6 w-6 bg-gray-900 rounded flex items-center justify-center">
+              <svg class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </div>
+            <span class="text-lg font-semibold text-gray-900">Invoice Generator</span>
           <% end %>
         </div>
         <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-          <%= link_to "Invoices", root_path, class: "inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 #{'border-blue-500 text-gray-900' if controller_name == 'invoices'}" %>
-          <%= link_to "Products", products_path, class: "inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 #{'border-blue-500 text-gray-900' if controller_name == 'products'}" %>
-          <%= link_to "Settings", edit_settings_path, class: "inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 #{'border-blue-500 text-gray-900' if controller_name == 'settings'}" %>
+          <%= link_to "Invoices", invoices_path, class: "inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-gray-300 #{'border-gray-900 text-gray-900' if controller_name == 'invoices'}" %>
+          <%= link_to "Products", products_path, class: "inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-gray-300 #{'border-gray-900 text-gray-900' if controller_name == 'products'}" %>
+          <%= link_to "Settings", edit_settings_path, class: "inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-900 hover:border-gray-300 #{'border-gray-900 text-gray-900' if controller_name == 'settings'}" %>
         </div>
       </div>
     </div>
