@@ -45,7 +45,7 @@ gem "prawn", "~> 2.4"
 gem "prawn-table", "~> 0.2.2"
 
 # Tailwind CSS
-gem "tailwindcss-rails", "~> 2.7"
+gem "tailwindcss-rails", "~> 4.4"
 
 # Authentication
 gem "devise", "~> 4.9"
