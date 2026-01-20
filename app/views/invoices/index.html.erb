@@ -47,7 +47,7 @@
                   </div>
                   <div class="flex items-center space-x-4">
                     <div class="text-right">
-                      <p class="text-sm font-semibold text-gray-900"><%= number_to_currency(invoice.total, unit: invoice.tax_rate > 0 ? Setting.instance.currency : "$") %></p>
+                      <p class="text-sm font-semibold text-gray-900"><%= number_to_currency(invoice.total, unit: Setting.instance.currency, format: "%u %n") %></p>
                       <p class="text-sm text-gray-500"><%= invoice.invoice_date.strftime("%b %d, %Y") %></p>
                     </div>
                     <div class="relative" data-controller="dropdown">

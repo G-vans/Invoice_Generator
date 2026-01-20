@@ -118,7 +118,7 @@
                     </div>
                     <div class="col-span-1">
                       <% setting = Setting.instance %>
-                      <span class="item-total block w-full text-sm font-medium text-gray-900 text-right"><%= number_to_currency(item_form.object.line_total || 0, unit: setting.currency || "$") %></span>
+                      <span class="item-total block w-full text-sm font-medium text-gray-900 text-right"><%= number_to_currency(item_form.object.line_total || 0, unit: setting.currency || "$", format: "%u %n") %></span>
                     </div>
                     <div class="col-span-1">
                       <%= item_form.hidden_field :_destroy, class: "destroy-field" %>
@@ -136,15 +136,15 @@
                   <div class="flex justify-between">
                     <span class="text-sm text-gray-600">Subtotal:</span>
                     <% setting = Setting.instance %>
-                    <span id="subtotal" class="text-sm font-medium text-gray-900"><%= number_to_currency(@invoice.subtotal || 0, unit: setting.currency || "$") %></span>
+                    <span id="subtotal" class="text-sm font-medium text-gray-900"><%= number_to_currency(@invoice.subtotal || 0, unit: setting.currency || "$", format: "%u %n") %></span>
                   </div>
                   <div class="flex justify-between">
                     <span class="text-sm text-gray-600">Tax:</span>
-                    <span id="tax-amount" class="text-sm font-medium text-gray-900"><%= number_to_currency(@invoice.tax_amount || 0, unit: setting.currency || "$") %></span>
+                    <span id="tax-amount" class="text-sm font-medium text-gray-900"><%= number_to_currency(@invoice.tax_amount || 0, unit: setting.currency || "$", format: "%u %n") %></span>
                   </div>
                   <div class="flex justify-between pt-2 border-t border-gray-200">
                     <span class="text-base font-bold text-gray-900">Total:</span>
-                    <span id="grand-total" class="text-base font-bold text-gray-900"><%= number_to_currency(@invoice.total || 0, unit: setting.currency || "$") %></span>
+                    <span id="grand-total" class="text-base font-bold text-gray-900"><%= number_to_currency(@invoice.total || 0, unit: setting.currency || "$", format: "%u %n") %></span>
                   </div>
                 </div>
               </div>

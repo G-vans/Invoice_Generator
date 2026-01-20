@@ -95,8 +95,8 @@ class InvoicePdfService
       items_data << [
         item.description,
         item.quantity.to_s,
-        "#{@setting.currency}#{sprintf('%.2f', item.unit_price)}",
-        "#{@setting.currency}#{sprintf('%.2f', item.line_total)}"
+        "#{@setting.currency} #{sprintf('%.2f', item.unit_price)}",
+        "#{@setting.currency} #{sprintf('%.2f', item.line_total)}"
       ]
     end
 
@@ -133,7 +133,7 @@ class InvoicePdfService
 
       # Subtotal
       pdf.text_box "Subtotal:", at: [ 0, pdf.cursor ], width: totals_width * 0.6, size: 10, color: "666666"
-      pdf.text_box "#{@setting.currency}#{sprintf('%.2f', @invoice.subtotal)}",
+      pdf.text_box "#{@setting.currency} #{sprintf('%.2f', @invoice.subtotal)}",
                    at: [ totals_width * 0.6, pdf.cursor ], width: totals_width * 0.4,
                    size: 10, align: :right
       pdf.move_down 15
@@ -141,7 +141,7 @@ class InvoicePdfService
       # Tax
       if @invoice.tax_rate > 0
         pdf.text_box "Tax (#{@invoice.tax_rate}%):", at: [ 0, pdf.cursor ], width: totals_width * 0.6, size: 10, color: "666666"
-        pdf.text_box "#{@setting.currency}#{sprintf('%.2f', @invoice.tax_amount)}",
+        pdf.text_box "#{@setting.currency} #{sprintf('%.2f', @invoice.tax_amount)}",
                      at: [ totals_width * 0.6, pdf.cursor ], width: totals_width * 0.4,
                      size: 10, align: :right
         pdf.move_down 15
@@ -154,7 +154,7 @@ class InvoicePdfService
 
       # Grand Total
       pdf.text_box "Total:", at: [ 0, pdf.cursor ], width: totals_width * 0.6, size: 12, style: :bold
-      pdf.text_box "#{@setting.currency}#{sprintf('%.2f', @invoice.total)}",
+      pdf.text_box "#{@setting.currency} #{sprintf('%.2f', @invoice.total)}",
                    at: [ totals_width * 0.6, pdf.cursor ], width: totals_width * 0.4,
                    size: 12, style: :bold, align: :right
     end

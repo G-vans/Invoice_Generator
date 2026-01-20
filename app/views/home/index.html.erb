@@ -199,7 +199,7 @@
                     </div>
                     <div class="flex items-center space-x-6">
                       <div class="text-right">
-                        <p class="text-base font-semibold text-gray-900"><%= number_to_currency(invoice.total, unit: @setting.currency || "$") %></p>
+                        <p class="text-base font-semibold text-gray-900"><%= number_to_currency(invoice.total, unit: @setting.currency || "$", format: "%u %n") %></p>
                         <p class="text-xs text-gray-500">Total</p>
                       </div>
                       <%= link_to invoice, class: "text-sm font-medium text-gray-900 hover:text-gray-700 flex items-center" do %>
