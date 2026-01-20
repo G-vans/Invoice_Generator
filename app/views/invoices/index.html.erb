@@ -40,7 +40,7 @@
                   <div class="flex items-center">
                     <div>
                       <p class="text-sm font-semibold text-gray-900">
-                        <%= link_to invoice.invoice_number, invoice, class: "hover:underline" %>
+                        <%= link_to invoice.invoice_number, invoice, data: { turbo_frame: "_top" }, class: "hover:underline" %>
                       </p>
                       <p class="text-sm text-gray-600"><%= invoice.client_name %></p>
                     </div>
@@ -62,7 +62,7 @@
                       <div data-dropdown-target="menu" 
                            class="hidden absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
                         <div class="py-1">
-                          <%= link_to invoice, class: "block px-4 py-2 text-sm text-gray-900 hover:bg-gray-50" do %>
+                          <%= link_to invoice, data: { turbo_frame: "_top" }, class: "block px-4 py-2 text-sm text-gray-900 hover:bg-gray-50" do %>
                             <div class="flex items-center">
                               <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -71,7 +71,7 @@
                               View
                             </div>
                           <% end %>
-                          <%= link_to edit_invoice_path(invoice), class: "block px-4 py-2 text-sm text-gray-900 hover:bg-gray-50" do %>
+                          <%= link_to edit_invoice_path(invoice), data: { turbo_frame: "_top" }, class: "block px-4 py-2 text-sm text-gray-900 hover:bg-gray-50" do %>
                             <div class="flex items-center">
                               <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
