@@ -22,6 +22,13 @@
               },
               class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm" %>
         </div>
+        <div class="min-w-[150px]">
+          <%= form.select :status, 
+              options_for_select([["All Statuses", ""]] + Invoice::STATUSES.map { |s| [s.capitalize, s] }, params[:status]),
+              {},
+              class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 sm:text-sm",
+              data: { action: "change->auto-search#search" } %>
+        </div>
         <div class="flex gap-2">
           <%= link_to "Clear", invoices_path, data: { turbo_frame: "invoices_list" }, class: "px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors" %>
         </div>
@@ -39,9 +46,14 @@
                 <div class="flex items-center justify-between">
                   <div class="flex items-center">
                     <div>
-                      <p class="text-sm font-semibold text-gray-900">
-                        <%= link_to invoice.invoice_number, invoice, data: { turbo_frame: "_top" }, class: "hover:underline" %>
-                      </p>
+                      <div class="flex items-center gap-2">
+                        <p class="text-sm font-semibold text-gray-900">
+                          <%= link_to invoice.invoice_number, invoice, data: { turbo_frame: "_top" }, class: "hover:underline" %>
+                        </p>
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium <%= status_badge_class(invoice.status) %>">
+                          <%= invoice.status&.capitalize || "Draft" %>
+                        </span>
+                      </div>
                       <p class="text-sm text-gray-600"><%= invoice.client_name %></p>
                     </div>
                   </div>

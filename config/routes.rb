@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :invoices do
     member do
       post :duplicate
+      patch :update_status
     end
   end
 

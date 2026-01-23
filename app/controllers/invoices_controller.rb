@@ -1,10 +1,11 @@
 class InvoicesController < ApplicationController
-  before_action :set_invoice, only: [ :show, :edit, :update, :destroy, :duplicate ]
+  before_action :set_invoice, only: [ :show, :edit, :update, :destroy, :duplicate, :update_status ]
   before_action :set_setting, only: [ :new, :create, :edit, :update ]
 
   def index
     @invoices = Invoice.recent
     @invoices = @invoices.by_client(params[:client]) if params[:client].present?
+    @invoices = @invoices.by_status(params[:status]) if params[:status].present?
     @invoices = @invoices.by_date_range(params[:start_date], params[:end_date]) if params[:start_date].present? && params[:end_date].present?
   end
 
@@ -70,6 +71,13 @@ class InvoicesController < ApplicationController
     end
   end
 
+  def update_status
+    if @invoice.update(status: params[:status])
+      redirect_to @invoice, notice: "Invoice status updated to #{@invoice.status}."
+    else
+      redirect_to @invoice, alert: "Failed to update invoice status."
+    end
+  end
 
   private
 
@@ -90,6 +98,7 @@ class InvoicesController < ApplicationController
       :client_email,
       :tax_rate,
       :notes,
+      :status,
       invoice_items_attributes: [ :id, :product_id, :description, :quantity, :unit_price, :_destroy, :position ]
     )
   end

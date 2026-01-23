@@ -1,4 +1,7 @@
 class Invoice < ApplicationRecord
+  # Status constants
+  STATUSES = %w[draft sent paid].freeze
+
   has_many :invoice_items, dependent: :destroy
   accepts_nested_attributes_for :invoice_items, allow_destroy: true, reject_if: :all_blank
 
@@ -10,15 +13,18 @@ class Invoice < ApplicationRecord
   validates :tax_rate, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :tax_amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :total, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :status, inclusion: { in: STATUSES }, allow_nil: true
 
   before_validation :calculate_totals, on: [ :create, :update ]
   before_validation :generate_invoice_number, on: :create, unless: :invoice_number?
+  before_validation :set_default_status, on: :create
 
   scope :recent, -> { order(created_at: :desc) }
   scope :by_client, ->(name) { where("LOWER(client_name) LIKE ?", "%#{name.downcase}%") if name.present? }
   scope :by_date_range, ->(start_date, end_date) {
     where(invoice_date: start_date..end_date) if start_date.present? && end_date.present?
   }
+  scope :by_status, ->(status) { where(status: status) if status.present? }
 
   def calculate_totals
     # Calculate subtotal from invoice items (including unsaved ones)
@@ -81,5 +87,9 @@ class Invoice < ApplicationRecord
     setting = Setting.instance
     days = setting.payment_terms.to_s.scan(/\d+/).first&.to_i || 30
     invoice_date + days.days
+  end
+
+  def set_default_status
+    self.status ||= "draft"
   end
 end
