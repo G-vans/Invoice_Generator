@@ -48,7 +48,7 @@ gem "prawn-table", "~> 0.2.2"
 gem "tailwindcss-rails", "~> 2.7"
 
 # Authentication
-gem "devise", "~> 4.9"
+gem "devise", "~> 5.0"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
