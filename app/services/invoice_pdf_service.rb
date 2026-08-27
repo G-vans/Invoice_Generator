@@ -18,7 +18,6 @@ class InvoicePdfService
   def generate
     Prawn::Document.new(page_size: "A4", margin: [ 40, 40, 40, 40 ]) do |pdf|
       setup_fonts(pdf)
-      create_watermark_stamp(pdf)
       draw_header(pdf)
       draw_invoice_info_box(pdf)
       draw_bill_to(pdf)
@@ -27,7 +26,7 @@ class InvoicePdfService
       draw_notes(pdf) if @invoice.notes.present?
       draw_payment_terms(pdf)
       draw_footer(pdf)
-      apply_watermark_stamp(pdf)
+      apply_watermark(pdf)
     end
   end
 
@@ -38,45 +37,49 @@ class InvoicePdfService
     pdf.font "Helvetica"
   end
 
-  def create_watermark_stamp(pdf)
+  # Draws a translucent logo watermark on every page using explicit
+  # coordinates. Replaces the previous create_stamp implementation that
+  # was causing phantom page breaks. Called at the END of generate() so
+  # it doesn't interfere with content layout.
+  def apply_watermark(pdf)
     return unless @setting.logo.attached?
 
     begin
       logo_path = ActiveStorage::Blob.service.path_for(@setting.logo.key)
-      if File.exist?(logo_path)
-        pdf.create_stamp("watermark") do
-          pdf.transparent(0.04) do
-            # Stamps operate in absolute page coordinates by default
-            # Center the image on an A4 page (roughly 595 x 842 points)
-            w = 400
-            pdf.image logo_path, width: w, position: :center, vposition: :center
-          end
+      return unless File.exist?(logo_path)
+
+      # A4 in points: 595 wide x 842 tall.
+      # Draw a 300pt-wide watermark centred on the page.
+      watermark_width  = 300
+      page_width       = pdf.bounds.width
+      page_height      = pdf.bounds.height
+      x = (page_width - watermark_width) / 2.0
+      # Assume roughly square logo; place top-left so image is vertically centred
+      y = (page_height / 2.0) + (watermark_width / 2.0)
+
+      pdf.repeat(:all) do
+        pdf.transparent(0.08) do
+          pdf.image logo_path, at: [ x, y ], width: watermark_width
         end
       end
     rescue => e
-      Rails.logger.error "Error creating watermark stamp: #{e.message}"
-    end
-  end
-
-  def apply_watermark_stamp(pdf)
-    return unless @setting.logo.attached?
-
-    pdf.repeat(:all) do
-      pdf.stamp("watermark")
+      Rails.logger.error "Error applying watermark: #{e.message}"
     end
   end
 
   def draw_header(pdf)
-    pdf.bounding_box([ 0, pdf.cursor ], width: pdf.bounds.width, height: 100) do
+    header_height = 130
+    pdf.bounding_box([ 0, pdf.cursor ], width: pdf.bounds.width, height: header_height) do
       # Left side - Company branding
-      pdf.bounding_box([ 0, pdf.bounds.top ], width: pdf.bounds.width * 0.55, height: 100) do
-        # Company Logo
+      pdf.bounding_box([ 0, pdf.bounds.top ], width: pdf.bounds.width * 0.55, height: header_height) do
+        # Company Logo — use fit: to constrain BOTH width and height so square logos
+        # do not overflow the header height and push content onto extra pages.
         if @setting.logo.attached?
           begin
             logo_path = ActiveStorage::Blob.service.path_for(@setting.logo.key)
             if File.exist?(logo_path)
-              pdf.image logo_path, width: 120, position: :left
-              pdf.move_down 8
+              pdf.image logo_path, fit: [ 70, 55 ], position: :left
+              pdf.move_down 6
             end
           rescue => e
             Rails.logger.error "Error loading logo: #{e.message}"
@@ -101,7 +104,7 @@ class InvoicePdfService
       end
 
       # Right side - INVOICE title and number
-      pdf.bounding_box([ pdf.bounds.width * 0.55, pdf.bounds.top ], width: pdf.bounds.width * 0.45, height: 100) do
+      pdf.bounding_box([ pdf.bounds.width * 0.55, pdf.bounds.top ], width: pdf.bounds.width * 0.45, height: header_height) do
         pdf.text "INVOICE", size: 28, style: :bold, align: :right, color: PRIMARY_COLOR
         pdf.move_down 6
         pdf.text "##{@invoice.invoice_number}", size: 14, align: :right, color: ACCENT_COLOR, style: :bold

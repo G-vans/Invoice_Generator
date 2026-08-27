@@ -29,6 +29,12 @@ setting.update!(
 )
 puts "✓ Company settings updated for #{setting.company_name}"
 
+logo_path = Rails.root.join("db/seed_assets/netty-logo.png")
+if File.exist?(logo_path) && !setting.logo.attached?
+  setting.logo.attach(io: File.open(logo_path), filename: "netty-logo.png", content_type: "image/png")
+  puts "✓ Logo attached"
+end
+
 # ─── 3. Menu items (products) ─────────────────────────────────────────────
 # FILL IN mum's real menu items and prices. These are placeholders based on
 # typical Kenyan catering — swap with what she actually charges.
