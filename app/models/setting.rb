@@ -8,8 +8,8 @@ class Setting < ApplicationRecord
   def self.instance
     first_or_create! do |setting|
       setting.tax_rate = 0.0
-      setting.currency = "$"
-      setting.payment_terms = "Net 30"
+      setting.currency = "KES"
+      setting.payment_terms = "Net 7"
       setting.invoice_prefix = "INV-"
     end
   end
