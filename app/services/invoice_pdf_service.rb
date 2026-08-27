@@ -18,6 +18,7 @@ class InvoicePdfService
   def generate
     Prawn::Document.new(page_size: "A4", margin: [ 40, 40, 40, 40 ]) do |pdf|
       setup_fonts(pdf)
+      create_watermark_stamp(pdf)
       draw_header(pdf)
       draw_invoice_info_box(pdf)
       draw_bill_to(pdf)
@@ -26,6 +27,7 @@ class InvoicePdfService
       draw_notes(pdf) if @invoice.notes.present?
       draw_payment_terms(pdf)
       draw_footer(pdf)
+      apply_watermark_stamp(pdf)
     end
   end
 
@@ -34,6 +36,34 @@ class InvoicePdfService
   def setup_fonts(pdf)
     # Use built-in Helvetica family for clean look
     pdf.font "Helvetica"
+  end
+
+  def create_watermark_stamp(pdf)
+    return unless @setting.logo.attached?
+
+    begin
+      logo_path = ActiveStorage::Blob.service.path_for(@setting.logo.key)
+      if File.exist?(logo_path)
+        pdf.create_stamp("watermark") do
+          pdf.transparent(0.04) do
+            # Stamps operate in absolute page coordinates by default
+            # Center the image on an A4 page (roughly 595 x 842 points)
+            w = 400
+            pdf.image logo_path, width: w, position: :center, vposition: :center
+          end
+        end
+      end
+    rescue => e
+      Rails.logger.error "Error creating watermark stamp: #{e.message}"
+    end
+  end
+
+  def apply_watermark_stamp(pdf)
+    return unless @setting.logo.attached?
+
+    pdf.repeat(:all) do
+      pdf.stamp("watermark")
+    end
   end
 
   def draw_header(pdf)
